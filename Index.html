@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#080d12">
+<title>OPÉRATION UNKNOWN — Dossier confidentiel</title>
+<style>
+:root{--bg:#080d12;--panel:#101a22;--line:#29404a;--muted:#8ca1a8;--txt:#e7f0ed;--green:#8ff0bd;--red:#ff7373;--amber:#eacb83}
+*{box-sizing:border-box} body{margin:0;background:radial-gradient(ellipse at 50% -20%,#19313a 0%,var(--bg) 60%);color:var(--txt);font:16px/1.55 ui-monospace,SFMono-Regular,Menlo,monospace}
+main{width:min(760px,100%);margin:auto;padding:28px 18px 70px}.top{display:flex;justify-content:space-between;gap:12px;color:var(--green);font-size:12px;letter-spacing:2px;border-bottom:1px solid var(--line);padding-bottom:14px}
+h1{font-size:clamp(34px,8vw,62px);line-height:1;margin:34px 0 12px;letter-spacing:-3px}h1 span{color:var(--green)}h2{font-size:21px;margin:0 0 12px}p{color:#c3d0d0}.muted{color:var(--muted);font-size:13px}.stamp{display:inline-block;border:1px solid var(--red);color:var(--red);padding:4px 9px;transform:rotate(-2deg);font-size:11px;letter-spacing:2px}
+.panel{background:linear-gradient(145deg,#12212a,#0c141b);border:1px solid var(--line);border-radius:12px;padding:20px;margin:18px 0;box-shadow:0 12px 35px #0005}
+button,.action{background:var(--green);color:#07120d;border:0;border-radius:7px;padding:12px 16px;font:700 13px ui-monospace,monospace;letter-spacing:.5px;cursor:pointer}
+button.secondary{background:transparent;color:var(--green);border:1px solid var(--green)}button:disabled{opacity:.4;cursor:not-allowed}
+input{background:#071016;border:1px solid var(--line);border-radius:6px;color:var(--txt);padding:12px;font:inherit;width:100%;margin:8px 0}
+.hidden{display:none!important}.tag{color:var(--green);font-size:11px;letter-spacing:2px}.clue{border-left:2px solid var(--green);padding:5px 0 5px 14px;margin:14px 0}.status{color:var(--amber);font-size:12px}.success{color:var(--green)}.warning{color:var(--red)}.progress{height:4px;background:#1b2b32;border-radius:5px;overflow:hidden;margin:20px 0}.progress div{height:100%;width:0;background:var(--green);transition:width .3s}
+audio{width:100%;margin:8px 0}footer{margin-top:35px;border-top:1px solid var(--line);padding-top:15px;color:var(--muted);font-size:11px}
+hr{border:0;border-top:1px solid var(--line);margin:18px 0}.code{font-size:clamp(24px,7vw,38px);letter-spacing:8px;color:var(--green);text-align:center;margin:18px}
+</style>
+</head>
+<body>
+<main>
+  <div class="top"><span>U.N.K.N.O.W.N. / CELLULE 07</span><span>ACCÈS RESTREINT</span></div>
+  <section id="intro">
+    <div class="stamp">CLASSIFIÉ — CONFIDENTIEL</div>
+    <h1>OPÉRATION<br><span>UNKNOWN</span></h1>
+    <p>Un dossier vient d'être retrouvé. Votre nom figure parmi les personnes autorisées à le consulter.</p>
+    <div class="panel">
+      <div class="tag">MESSAGE DU COMMANDANT</div>
+      <p>« Plusieurs incidents inexpliqués ont été signalés. Votre mission : examiner les preuves, identifier les deux individus et déverrouiller les archives. Faites preuve de discernement. »</p>
+      <p class="muted">Durée estimée : 5 à 8 minutes · Niveau : confidentiel</p>
+      <button onclick="start()">OUVRIR LE DOSSIER →</button>
+    </div>
+  </section>
+
+  <section id="investigation" class="hidden">
+    <div class="progress"><div id="bar"></div></div>
+    <div class="tag">DOSSIER 01 / INVESTIGATION</div>
+    <h2>Les preuves recueillies</h2>
+    <div class="panel">
+      <div class="tag">PREUVE 01 — INCIDENT CINÉMATOGRAPHIQUE</div>
+      <h2>Affaire « Obsession »</h2>
+      <p>Lors d'une sortie au cinéma, pendant la projection du film <i>Obsession</i>, un comportement inhabituel a été observé.</p>
+      <p class="clue">Témoignage : « Une personne prétendait être parfaitement calme. Les faits rapportés par les témoins semblent contredire cette version. »</p>
+      <p class="muted">Question : qui était la plus impressionnée par le film ?</p>
+      <button class="secondary" onclick="reveal('movie')">CONSULTER LE RAPPORT</button>
+      <p id="movie" class="hidden success">Rapport classé : la personne qui se reconnaîtra dans cette description sait très bien ce qu'il s'est passé. 👀 Preuve validée.</p>
+    </div>
+    <div class="panel">
+      <div class="tag">PREUVE 02 — LABORATOIRE PHONÉTIQUE</div>
+      <h2>Anomalies de prononciation</h2>
+      <p>Deux voix ont été signalées. Écoutez les enregistrements et identifiez les deux mots suspects.</p>
+      <div class="clue"><b>ÉCHANTILLON A</b><p class="muted">La voix présente un son entre deux voyelles dans un mot très court.</p><audio controls preload="none" src="la.mp3"></audio><span class="muted">Fichier audio attendu : la.mp3</span></div>
+      <hr>
+      <div class="clue"><b>ÉCHANTILLON B</b><p class="muted">Une autre voix semble avoir fait disparaître une lettre… ou presque.</p><audio controls preload="none" src="feuille.mp3"></audio><span class="muted">Fichier audio attendu : feuille.mp3</span></div>
+      <p class="muted">Indice : les deux mots sont déjà mentionnés dans votre dossier.</p>
+      <input id="phonetic" placeholder="Écrivez les deux mots, séparés par un espace">
+      <button onclick="checkWords()">VALIDER L'ANALYSE</button>
+      <p id="phoneticMsg" class="status" aria-live="polite"></p>
+    </div>
+    <div class="panel">
+      <div class="tag">PREUVE 03 — SYNTHÈSE</div>
+      <h2>Le code d'accès</h2>
+      <p>Le titre du film cité dans le rapport est également le mot de passe des archives.</p>
+      <input id="pass" placeholder="CODE D'ACCÈS">
+      <button onclick="unlock()">DÉVERROUILLER</button>
+      <p id="passMsg" class="status" aria-live="polite"></p>
+    </div>
+  </section>
+
+  <section id="archive" class="hidden">
+    <div class="stamp">ACCÈS AUTORISÉ</div>
+    <h1>LES <span>ARCHIVES</span></h1>
+    <div class="panel">
+      <div class="tag">DOSSIER FINAL / CLASSIFICATION : PERSONNELLE</div>
+      <h2>Objet réel de l'enquête</h2>
+      <p>Après analyse, les enquêteurs ont découvert que cette affaire ne portait ni sur un film, ni sur des problèmes de prononciation.</p>
+      <p>Elle portait sur deux personnes qui se taquinent pour un « la » qui sonne presque comme un « lo », qui se chamaillent autour d'un « feuille » prononcé à leur façon, qui rient de tout et n'importe quoi… mais qui savent aussi parler de choses beaucoup plus sérieuses.</p>
+      <p>Les preuves indiquent également une quantité anormalement élevée de souvenirs, de blagues incompréhensibles pour le reste de la population et de conversations qui comptent.</p>
+      <hr>
+      <h2 class="success">CONCLUSION DU DOSSIER</h2>
+      <p>Affaire non résolue. Et c'est très bien comme ça.</p>
+      <p>Parce que certaines histoires n'ont pas besoin d'être élucidées pour mériter de continuer.</p>
+      <p><b>Fin de transmission.</b></p>
+    </div>
+    <p class="muted">U.N.K.N.O.W.N. — Dossier clôturé… provisoirement.</p>
+  </section>
+  <footer>DOCUMENT FICTIF · CRÉÉ POUR UNE ENQUÊTE ENTRE AMIES · AUCUNE DONNÉE N'EST ENVOYÉE</footer>
+</main>
+<script>
+function start(){document.getElementById('intro').classList.add('hidden');document.getElementById('investigation').classList.remove('hidden')}
+function reveal(id){document.getElementById(id).classList.remove('hidden');document.getElementById('bar').style.width='35%'}
+function checkWords(){const v=document.getElementById('phonetic').value.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim().split(/\s+/);const ok=v.length===2&&v.includes('la')&&v.includes('feuille');document.getElementById('phoneticMsg').textContent=ok?'Analyse confirmée. Les deux individus sont formellement identifiés.':'Analyse incomplète. Il faut retrouver les deux mots suspects.';document.getElementById('phoneticMsg').className=ok?'status success':'status warning';if(ok)document.getElementById('bar').style.width='70%'}
+function unlock(){const v=document.getElementById('pass').value.trim().toLowerCase();const ok=v==='obsession';document.getElementById('passMsg').textContent=ok?'Identité confirmée. Archives déverrouillées.':'Accès refusé. Relisez le rapport de la preuve 01.';document.getElementById('passMsg').className=ok?'status success':'status warning';if(ok){document.getElementById('bar').style.width='100%';document.getElementById('archive').classList.remove('hidden');document.getElementById('archive').scrollIntoView({behavior:'smooth'})}}
+</script>
+</body></html>
