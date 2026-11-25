@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#090d12">
+<title>OPÉRATION UNKNOWN — Dossier confidentiel</title>
+<style>
+:root{--bg:#090d12;--panel:#111923;--line:#263747;--muted:#91a2b3;--text:#e8eef4;--green:#9ee6bf;--red:#e18c8c;--gold:#e7c77d}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 50% -10%,#1c2a38 0%,#090d12 55%);color:var(--text);font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;padding:24px 14px 50px}
+main{width:min(720px,100%);margin:0 auto}
+.top{display:flex;justify-content:space-between;gap:12px;align-items:center;color:var(--muted);font-size:11px;letter-spacing:1.6px;text-transform:uppercase;border-bottom:1px solid var(--line);padding:10px 0 16px}
+.stamp{border:1px solid #8a4444;color:#e8a0a0;padding:6px 9px;transform:rotate(-3deg);font-weight:bold}
+h1{font-size:clamp(28px,7vw,46px);letter-spacing:2px;margin:34px 0 8px}
+.subtitle{color:var(--green);font-size:12px;letter-spacing:2px;text-transform:uppercase}
+.panel{background:linear-gradient(145deg,rgba(20,30,41,.96),rgba(12,18,26,.96));border:1px solid var(--line);border-radius:12px;padding:22px;margin-top:20px;box-shadow:0 16px 45px #0005}
+.meta{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:1px;margin-bottom:16px}
+p{line-height:1.7;color:#cbd5df;font-size:14px}
+h2{font-size:17px;letter-spacing:1px;margin:0 0 12px}
+.small{font-size:12px;color:var(--muted)}
+button{font:inherit;border:1px solid #557565;background:#14291f;color:var(--green);padding:12px 15px;border-radius:7px;cursor:pointer;margin-top:12px}
+button:hover{background:#1b382a}
+input{width:100%;background:#080d12;color:var(--text);border:1px solid #405263;border-radius:7px;padding:14px;font:inherit;margin-top:10px;outline:none}
+input:focus{border-color:var(--green)}
+.feedback{min-height:22px;font-size:12px;color:var(--gold);margin-top:10px}
+.hidden{display:none!important}
+.clue{border-left:2px solid #718a9b;padding:9px 13px;margin:12px 0;background:#ffffff06;color:#cbd5df;font-size:13px;line-height:1.6}
+.choice{display:block;width:100%;text-align:left;background:#101a24;border-color:#344656;color:var(--text);margin:9px 0}
+.choice:hover{border-color:var(--green)}
+.rule{height:1px;background:var(--line);margin:18px 0}
+.terminal{color:var(--green);font-size:12px;line-height:1.8;white-space:pre-line}
+.footer{text-align:center;color:#607181;font-size:10px;letter-spacing:1px;margin-top:28px}
+.count{font-size:clamp(22px,6vw,34px);color:var(--gold);letter-spacing:2px;margin:15px 0}
+.archive{border:1px dashed #8b7442;background:#211d14}
+.archive h2{color:var(--gold)}
+</style>
+</head>
+<body>
+<main>
+  <div class="top"><span>Unité des affaires non classées</span><span class="stamp">CONFIDENTIEL</span></div>
+  <h1>OPÉRATION<br>UNKNOWN</h1>
+  <div class="subtitle">Dossier n° 23-12 / accès restreint</div>
+
+  <section class="panel" id="intro">
+    <div class="meta"><span>Statut : enquête ouverte</span><span>Agent désigné : toi</span></div>
+    <h2>Bienvenue, agente.</h2>
+    <p>Un dossier a été retrouvé dans les archives. Il concerne deux individus qui se connaissent un peu trop bien, se lancent régulièrement des piques et semblent partager un nombre inquiétant de souvenirs compromettants.</p>
+    <p>Ta mission : retrouver l'origine de plusieurs éléments du dossier. Certaines informations sont classées. Reste attentive.</p>
+    <button id="start">Accéder au dossier</button>
+  </section>
+
+  <section class="panel hidden" id="case1">
+    <div class="meta"><span>Pièce n° 01</span><span>Souvenir retrouvé</span></div>
+    <h2>L'incident de la séance</h2>
+    <p>Les enquêteurs ont identifié une sortie commune dans un établissement où l'on s'installe dans le noir pour regarder des histoires qui ne donnent pas toujours envie de dormir.</p>
+    <p>Deux personnes étaient présentes. Selon le rapport, l'une d'elles aurait été particulièrement impressionnée par le film.</p>
+    <div class="clue">Indice 01 — Le film appartient au genre horrifique.</div>
+    <div class="clue">Indice 02 — Son titre commence par la lettre O.</div>
+    <div class="clue">Indice 03 — Le titre évoque une idée fixe, une obsession…</div>
+    <p class="small">Entre le titre du film pour identifier la pièce à conviction.</p>
+    <input id="film" type="text" placeholder="Nom du film…" autocomplete="off">
+    <button id="checkFilm">Valider la réponse</button>
+    <div class="feedback" id="filmFeedback" aria-live="polite"></div>
+  </section>
+
+  <section class="panel hidden" id="case2">
+    <div class="meta"><span>Pièce n° 02</span><span>Témoignage</span></div>
+    <h2>Évaluation des témoins</h2>
+    <p>Le visionnage est terminé. Il reste à déterminer qui a le plus eu peur pendant la séance.</p>
+    <button class="choice" data-answer="friend">Ton amie. C'est assez évident.</button>
+    <button class="choice" data-answer="you">Toi, évidemment.</button>
+    <button class="choice" data-answer="both">Vous avez eu peur toutes les deux.</button>
+    <div class="feedback" id="choiceFeedback" aria-live="polite"></div>
+  </section>
+
+  <section class="panel hidden" id="access">
+    <div class="meta"><span>Enquête terminée</span><span>Accès accordé</span></div>
+    <h2>Rapport transmis.</h2>
+    <p>Les deux pièces ont été identifiées. Une dernière partie du dossier existe, mais elle est placée sous scellés jusqu'à la date prévue.</p>
+    <div class="terminal">> IDENTITÉ DE L'ARCHIVE : UNKNOWN
+> NIVEAU DE CLASSIFICATION : MAXIMAL
+> DÉVERROUILLAGE PROGRAMMÉ : 23.12.2026 — 00:00</div>
+  </section>
+
+  <section class="panel archive" id="locked">
+    <div class="meta"><span>Archive finale</span><span id="lockStatus">Verrouillée</span></div>
+    <h2>SCELLÉS NUMÉRIQUES</h2>
+    <p>Cette archive ne peut pas encore être consultée. Revenez à l'heure indiquée.</p>
+    <div class="count" id="countdown">Calcul en cours…</div>
+    <p class="small">Ouverture automatique le 23 décembre 2026 à 00:00 (heure de Paris).</p>
+  </section>
+
+  <section class="panel hidden" id="reveal">
+    <div class="meta"><span>Archive finale</span><span style="color:var(--green)">Déclassifiée</span></div>
+    <h2>Objet réel de l'enquête : votre amitié.</h2>
+    <p>Après analyse des éléments, les enquêteurs ont découvert que cette affaire ne concernait ni un crime mystérieux, ni une disparition, ni une quelconque menace.</p>
+    <p>Elle concerne simplement deux personnes qui ont développé une capacité remarquable à se taquiner pour absolument tout.</p>
+    <div class="rule"></div>
+    <div class="clue"><strong>Élément A :</strong> une prononciation de « feuille » qui mérite, selon certains témoins, une expertise linguistique.</div>
+    <div class="clue"><strong>Élément B :</strong> une certaine façon de prononcer des mots tout simples comme « la », qui fait l'objet de moqueries parfaitement réciproques.</div>
+    <div class="clue"><strong>Élément C :</strong> des sorties, des fous rires, des discussions qui partent dans tous les sens et aussi des conversations bien plus sérieuses.</div>
+    <div class="rule"></div>
+    <div class="terminal">CONCLUSION DU RAPPORT
+
+Complicité : AVÉRÉE
+Taquineries réciproques : EN COURS
+Souvenirs communs : NOMBREUX
+Amitié : À CONSERVER SANS LIMITE DE DURÉE
+
+DOSSIER CLASSÉ.
+(Enfin… jusqu'à la prochaine bêtise.)</div>
+  </section>
+  <div class="footer">DOCUMENT INTERNE — TOUTE DIFFUSION EST THÉORIQUEMENT INTERDITE</div>
+</main>
+<script>
+const $ = id => document.getElementById(id);
+const show = id => $(id).classList.remove('hidden');
+$('start').addEventListener('click',()=>{show('case1');$('case1').scrollIntoView({behavior:'smooth',block:'start'});});
+$('checkFilm').addEventListener('click',()=>{
+  const answer=$('film').value.trim().normalize('NFD').replace(/[\u0300-\u036f]/g,'').toUpperCase().replace(/[^A-Z]/g,'');
+  if(answer==='OBSESSION'){
+    $('filmFeedback').style.color='var(--green)';
+    $('filmFeedback').textContent='Identification confirmée. Pièce à conviction enregistrée.';
+    show('case2');$('case2').scrollIntoView({behavior:'smooth',block:'start'});
+  }else{
+    $('filmFeedback').textContent='Réponse incorrecte. Relis les indices et fouille dans tes souvenirs.';
+  }
+});
+$('film').addEventListener('keydown',e=>{if(e.key==='Enter')$('checkFilm').click();});
+document.querySelectorAll('.choice').forEach(button=>button.addEventListener('click',()=>{
+  if(button.dataset.answer==='friend'){
+    $('choiceFeedback').style.color='var(--green)';
+    $('choiceFeedback').textContent='Témoignage validé. La réponse était effectivement assez évidente.';
+    show('access');show('locked');
+    $('access').scrollIntoView({behavior:'smooth',block:'start'});
+    updateLock();
+  }else{
+    $('choiceFeedback').textContent='Hmm… Le rapport ne semble pas confirmer cette version. Réessaie.';
+  }
+}));
+const unlockAt=new Date('2026-12-23T00:00:00+01:00').getTime();
+function updateLock(){
+  const now=Date.now(),diff=unlockAt-now;
+  if(diff<=0){
+    $('locked').classList.add('hidden');show('reveal');$('lockStatus').textContent='Ouverte';
+    return;
+  }
+  const days=Math.floor(diff/86400000),hours=Math.floor(diff%86400000/3600000),mins=Math.floor(diff%3600000/60000),secs=Math.floor(diff%60000/1000);
+  $('countdown').textContent=`${days}j ${String(hours).padStart(2,'0')}h ${String(mins).padStart(2,'0')}m ${String(secs).padStart(2,'0')}s`;
+}
+updateLock();setInterval(updateLock,1000);
+</script>
+</body>
+</html>
