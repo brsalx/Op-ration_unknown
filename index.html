@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#090d12">
+<title>OPÉRATION UNKNOWN — Dossier confidentiel</title>
+<style>
+:root{--bg:#090d12;--panel:#111923;--line:#263747;--muted:#91a2b3;--text:#e8eef4;--green:#9ee6bf;--red:#e18c8c;--gold:#e7c77d}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 50% -10%,#1c2a38 0%,#090d12 55%);color:var(--text);font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;padding:24px 14px 50px}
+main{width:min(720px,100%);margin:0 auto}
+.top{display:flex;justify-content:space-between;gap:12px;align-items:center;color:var(--muted);font-size:11px;letter-spacing:1.6px;text-transform:uppercase;border-bottom:1px solid var(--line);padding:10px 0 16px}
+.stamp{border:1px solid #8a4444;color:#e8a0a0;padding:6px 9px;transform:rotate(-3deg);font-weight:bold}
+h1{font-size:clamp(28px,7vw,46px);letter-spacing:2px;margin:34px 0 8px}
+.subtitle{color:var(--green);font-size:12px;letter-spacing:2px;text-transform:uppercase}
+.panel{background:linear-gradient(145deg,rgba(20,30,41,.96),rgba(12,18,26,.96));border:1px solid var(--line);border-radius:12px;padding:22px;margin-top:20px;box-shadow:0 16px 45px #0005}
+.meta{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:1px;margin-bottom:16px}
+p{line-height:1.7;color:#cbd5df;font-size:14px}
+h2{font-size:17px;letter-spacing:1px;margin:0 0 12px}
+.small{font-size:12px;color:var(--muted)}
+button{font:inherit;border:1px solid #557565;background:#14291f;color:var(--green);padding:12px 15px;border-radius:7px;cursor:pointer;margin-top:12px}
+button:hover{background:#1b382a}
+input{width:100%;background:#080d12;color:var(--text);border:1px solid #405263;border-radius:7px;padding:14px;font:inherit;margin-top:10px;outline:none}
+input:focus{border-color:var(--green)}
+.feedback{min-height:22px;font-size:12px;color:var(--gold);margin-top:10px}
+.hidden{display:none!important}
+.clue{border-left:2px solid #718a9b;padding:9px 13px;margin:12px 0;background:#ffffff06;color:#cbd5df;font-size:13px;line-height:1.6}
+.choice{display:block;width:100%;text-align:left;background:#101a24;border-color:#344656;color:var(--text);margin:9px 0}
+.choice:hover{border-color:var(--green)}
+.rule{height:1px;background:var(--line);margin:18px 0}
+.terminal{color:var(--green);font-size:12px;line-height:1.8;white-space:pre-line}
+.footer{text-align:center;color:#607181;font-size:10px;letter-spacing:1px;margin-top:28px}
+.count{font-size:clamp(22px,6vw,34px);color:var(--gold);letter-spacing:2px;margin:15px 0}
+.archive{border:1px dashed #8b7442;background:#211d14}
+.archive h2{color:var(--gold)}
+.hint{font-size:12px;color:var(--muted);margin-top:8px}
+.riddle{border:1px solid var(--line);border-radius:8px;padding:14px 16px;background:#ffffff05;font-style:italic;color:#dde6ee;line-height:1.8;font-size:14px;margin:14px 0}
+.note{color:var(--gold);font-size:12px}
+</style>
+</head>
+<body>
+<main>
+  <div class="top"><span>Unité des affaires non classées</span><span class="stamp">CONFIDENTIEL</span></div>
+  <h1>OPÉRATION<br>UNKNOWN</h1>
+  <div class="subtitle">Dossier n° 23-12 / accès restreint</div>
+
+  <section class="panel" id="intro">
+    <div class="meta"><span>Statut : enquête ouverte</span><span>Agent désigné : toi</span></div>
+    <h2>Bienvenue, agente.</h2>
+    <p>Un dossier a été retrouvé dans les archives. Il concerne deux individus qui se connaissent un peu trop bien, se lancent régulièrement des piques et semblent partager un nombre inquiétant de souvenirs compromettants.</p>
+    <p>Ta mission : retrouver l'origine de trois éléments du dossier. Une fois l'enquête bouclée, une archive finale sera déclassifiée à la date prévue. Reste attentive.</p>
+    <button id="start">Accéder au dossier</button>
+  </section>
+
+  <section class="panel hidden" id="case1">
+    <div class="meta"><span>Pièce n° 01</span><span>Souvenir retrouvé</span></div>
+    <h2>L'incident de la séance</h2>
+    <p>Les enquêteurs ont identifié une sortie commune dans une salle obscure, devant un film qui ne donne pas franchement envie de dormir ensuite.</p>
+    <p class="small">Le titre a été effacé des archives. À toi de le retrouver. Les indices sont facultatifs : ils arrivent un par un, et seulement si tu les demandes.</p>
+    <div id="clueArea1"></div>
+    <button type="button" id="hint1">Consulter un indice</button>
+    <p class="hint" id="hintCount1">Aucun indice consulté.</p>
+    <input id="film" type="text" placeholder="Titre du film…" autocomplete="off">
+    <button id="checkFilm">Valider la réponse</button>
+    <div class="feedback" id="filmFeedback" aria-live="polite"></div>
+  </section>
+
+  <section class="panel hidden" id="case2">
+    <div class="meta"><span>Pièce n° 02</span><span>Témoignage</span></div>
+    <h2>Évaluation des témoins</h2>
+    <p>Le visionnage est terminé. Il reste à déterminer qui a le plus eu peur pendant la séance.</p>
+    <button class="choice" data-answer="friend">Toi. C'est assez évident.</button>
+    <button class="choice" data-answer="you">Ton ami. Il avait l'air très à l'aise.</button>
+    <button class="choice" data-answer="both">Vous deux, à parts égales.</button>
+    <div class="feedback" id="choiceFeedback" aria-live="polite"></div>
+  </section>
+
+  <section class="panel hidden" id="case3">
+    <div class="meta"><span>Pièce n° 03</span><span>Message intercepté</span></div>
+    <h2>Le mot de passe</h2>
+    <p>Un dernier message a été intercepté. Il décrit un seul mot, que vous seules savez prononcer « comme il faut ».</p>
+    <div class="riddle">Je me détache quand l'automne arrive,<br>mais on me retrouve aussi dans ton cahier.<br>Je peux être verte, rousse, ou toute blanche.<br>Dans le dictionnaire, on me dit d'une façon…<br>chez vous deux, jamais.<br><br>Qui suis-je ?</div>
+    <div id="clueArea3"></div>
+    <button type="button" id="hint3">Consulter un indice</button>
+    <p class="hint" id="hintCount3">Aucun indice consulté.</p>
+    <input id="word" type="text" placeholder="Le mot…" autocomplete="off">
+    <button id="checkWord">Valider la réponse</button>
+    <div class="feedback" id="wordFeedback" aria-live="polite"></div>
+  </section>
+
+  <section class="panel hidden" id="access">
+    <div class="meta"><span>Enquête terminée</span><span>Accès accordé</span></div>
+    <h2>Rapport transmis.</h2>
+    <p>Les trois pièces ont été identifiées. Une dernière partie du dossier existe, mais elle est placée sous scellés jusqu'à la date prévue.</p>
+    <div class="terminal">> IDENTITÉ DE L'ARCHIVE : UNKNOWN
+> NIVEAU DE CLASSIFICATION : MAXIMAL
+> DÉVERROUILLAGE PROGRAMMÉ : 23.12.2026 — 00:00</div>
+    <div class="count" id="countdown">Calcul en cours…</div>
+    <p class="small">Ouverture automatique le 23 décembre 2026 à 00:00 (heure de Paris). Reviens sur cette page à ce moment-là.</p>
+  </section>
+
+  <section class="panel hidden" id="reveal"></section>
+  <div class="footer">DOCUMENT INTERNE — TOUTE DIFFUSION EST THÉORIQUEMENT INTERDITE</div>
+</main>
+<script>
+const $=id=>document.getElementById(id);
+const show=id=>$(id).classList.remove('hidden');
+const hide=id=>$(id).classList.add('hidden');
+
+/* ====== Les indices (un par un, du plus vague au plus clair) ====== */
+const HINTS_FILM=[
+  "Indice 1 — Souviens-toi de la soirée : vous avez déballé vos sushis en pleine salle, et c'était hyper drôle.",
+  "Indice 2 — Pendant la séance, tu as eu très, très peur. Ça ne s'oublie pas.",
+  "Indice 3 — L'histoire : un employé d'un magasin de musique, amoureux de sa collègue, fait un vœu grâce à un petit objet mystérieux.",
+  "Indice 4 — Le titre est un mot anglais, qui existe aussi en français : ce qu'on ressent quand on ne peut plus penser à autre chose."
+];
+const HINTS_WORD=[
+  "Indice 1 — On me trouve sur un arbre… et dans une imprimante.",
+  "Indice 2 — Ce mot est devenu une blague entre vous, à cause de la façon dont l'un de vous deux le prononce.",
+  "Indice 3 — Il rime avec « cueille »."
+];
+/* =================================================================================== */
+
+/* Réponses stockées sous forme de hash (pas lisibles dans le code). Voir README en bas de réponse. */
+const hash=s=>{let a=0xdeadbeef,b=0x41c6ce57;for(let i=0;i<s.length;i++){const c=s.charCodeAt(i);a=Math.imul(a^c,2654435761);b=Math.imul(b^c,1597334677)}a=Math.imul(a^(a>>>16),2246822507)^Math.imul(b^(b>>>13),3266489909);b=Math.imul(b^(b>>>16),2246822507)^Math.imul(a^(a>>>13),3266489909);return(4294967296*(2097151&b)+(a>>>0)).toString(36)};
+const norm=s=>s.trim().normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z]/g,'');
+const OK_FILM=["hqm2zwi61a","ykhrieniwv"], OK_WORD=["2amj8fm86zl","1jqildg7oie","29xckwj6nx0","sfx0qk4629"];
+
+let stage=0;
+try{stage=parseInt(localStorage.getItem('unknown_stage')||'0',10)||0}catch(e){}
+function setStage(n){if(n>stage){stage=n;try{localStorage.setItem('unknown_stage',String(n))}catch(e){}}}
+function render(){
+  if(stage>=1)show('case1');
+  if(stage>=2)show('case2');
+  if(stage>=3)show('case3');
+  if(stage>=4)show('access');
+}
+function go(id){setTimeout(()=>$(id).scrollIntoView({behavior:'smooth',block:'start'}),50)}
+
+function hintsFor(btn,area,count,list){
+  let i=0;
+  $(btn).addEventListener('click',()=>{
+    if(i>=list.length)return;
+    const d=document.createElement('div');d.className='clue';d.textContent=list[i];$(area).appendChild(d);i++;
+    $(count).textContent=i===1?'1 indice consulté.':i+' indices consultés.';
+    $(btn).textContent=i<list.length?'Consulter l’indice suivant':'Tous les indices ont été consultés';
+    if(i===list.length)$(btn).disabled=true;
+  });
+}
+hintsFor('hint1','clueArea1','hintCount1',HINTS_FILM);
+hintsFor('hint3','clueArea3','hintCount3',HINTS_WORD);
+
+$('start').addEventListener('click',()=>{setStage(1);render();go('case1')});
+$('checkFilm').addEventListener('click',()=>{
+  if(OK_FILM.includes(hash(norm($('film').value)))){
+    $('filmFeedback').style.color='var(--green)';
+    $('filmFeedback').textContent='Identification confirmée. Pièce à conviction enregistrée.';
+    setStage(2);render();go('case2');
+  }else{$('filmFeedback').style.color='var(--gold)';$('filmFeedback').textContent='Réponse incorrecte. Fouille dans tes souvenirs, ou demande un indice.'}
+});
+$('film').addEventListener('keydown',e=>{if(e.key==='Enter')$('checkFilm').click()});
+document.querySelectorAll('.choice').forEach(b=>b.addEventListener('click',()=>{
+  if(b.dataset.answer==='friend'){
+    $('choiceFeedback').style.color='var(--green)';
+    $('choiceFeedback').textContent='Témoignage validé. La réponse était effectivement assez évidente.';
+    setStage(3);render();go('case3');
+  }else{$('choiceFeedback').style.color='var(--gold)';$('choiceFeedback').textContent='Hmm… Le rapport ne semble pas confirmer cette version. Réessaie.'}
+}));
+$('checkWord').addEventListener('click',()=>{
+  if(OK_WORD.includes(hash(norm($('word').value)))){
+    $('wordFeedback').style.color='var(--green)';
+    $('wordFeedback').textContent='Mot de passe accepté. Dernière pièce enregistrée.';
+    setStage(4);render();go('access');
+  }else{$('wordFeedback').style.color='var(--gold)';$('wordFeedback').textContent='Ce n’est pas le bon mot. Relis l’énigme, ou demande un indice.'}
+});
+$('word').addEventListener('keydown',e=>{if(e.key==='Enter')$('checkWord').click()});
+
+/* Verrou : 23 décembre 2026 à 00:00, heure de Paris (UTC+1 en hiver). Ajoute ?preview à l'URL pour tester. */
+const REVEAL_B64="PGRpdiBjbGFzcz0ibWV0YSI+PHNwYW4+QXJjaGl2ZSBmaW5hbGU8L3NwYW4+PHNwYW4gc3R5bGU9ImNvbG9yOnZhcigtLWdyZWVuKSI+RMOpY2xhc3NpZmnDqWU8L3NwYW4+PC9kaXY+CjxoMj5PYmpldCByw6llbCBkZSBsJ2VucXXDqnRlIDogdm90cmUgYW1pdGnDqS48L2gyPgo8cD5BcHLDqHMgYW5hbHlzZSBkZXMgw6lsw6ltZW50cywgbGVzIGVucXXDqnRldXJzIG9udCBkw6ljb3V2ZXJ0IHF1ZSBjZXR0ZSBhZmZhaXJlIG5lIGNvbmNlcm5haXQgbmkgdW4gY3JpbWUgbXlzdMOpcmlldXgsIG5pIHVuZSBkaXNwYXJpdGlvbiwgbmkgdW5lIHF1ZWxjb25xdWUgbWVuYWNlLjwvcD4KPHA+RWxsZSBjb25jZXJuZSBzaW1wbGVtZW50IGRldXggcGVyc29ubmVzIHF1aSBvbnQgZMOpdmVsb3Bww6kgdW5lIGNhcGFjaXTDqSByZW1hcnF1YWJsZSDDoCBzZSB0YWNsZXIgcG91ciBhYnNvbHVtZW50IHRvdXQuPC9wPgo8ZGl2IGNsYXNzPSJydWxlIj48L2Rpdj4KPGRpdiBjbGFzcz0iY2x1ZSI+PHN0cm9uZz7DiWzDqW1lbnQgQSA6PC9zdHJvbmc+IHVuZSBjb2xsZWN0aW9uIGRlIHNvdXZlbmlycyBwYXJ0YWfDqXMsIGVudHJlIHNvcnRpZXMsIGZvdXMgcmlyZXMgZXQgbW9tZW50cyBpbXByb2JhYmxlcy48L2Rpdj4KPGRpdiBjbGFzcz0iY2x1ZSI+PHN0cm9uZz7DiWzDqW1lbnQgQiA6PC9zdHJvbmc+IHVuZSBjb21wbGljaXTDqSBmYWl0ZSBkZSBibGFndWVzIGV0IGRlIGNvbnZlcnNhdGlvbnMgcXVpIHBhc3NlbnQgZHUgdG91dCBhdSB0b3V0LCBlbnRyZSBkaXNjdXNzaW9ucyBhbMOpYXRvaXJlcyBldCBzdWpldHMgdHLDqHMgc8OpcmlldXguPC9kaXY+CjxkaXYgY2xhc3M9ImNsdWUiPjxzdHJvbmc+w4lsw6ltZW50IEMgOjwvc3Ryb25nPiBkZXV4IHBlcnNvbm5lcyBxdWkgc2F2ZW50IHNlIGZhaXJlIHJpcmUsIHNlIHNvdXRlbmlyIGV0IHBhcmxlciBkZSB0b3V0LCBtw6ptZSDDoCBkaXN0YW5jZS48L2Rpdj4KPGRpdiBjbGFzcz0icnVsZSI+PC9kaXY+CjxkaXYgY2xhc3M9InRlcm1pbmFsIj5DT05DTFVTSU9OIERVIFJBUFBPUlQKCkNvbXBsaWNpdMOpIDogQVbDiVLDiUUKTW9xdWVyaWVzIHN1ciB2b3MgYWNjZW50cyA6IEVOIENPVVJTClNvdXZlbmlycyBjb21tdW5zIDogTk9NQlJFVVgKRGlzdGFuY2UgOiBTQU5TIEVGRkVUIE5PVEFCTEUKQW1pdGnDqSA6IMOAIENPTlNFUlZFUiBTQU5TIExJTUlURSBERSBEVVLDiUUKCkRPU1NJRVIgQ0xBU1PDiS4KKEVuZmlu4oCmIGp1c3F1J8OgIGxhIHByb2NoYWluZSBiw6p0aXNlLik8L2Rpdj4KPHAgY2xhc3M9InNtYWxsIj5QLi1TLiA6IGV0IG91aSwgb24gZGl0IGJpZW4gwqsgZmV1aWxsZSDCuy4g8J+NgjwvcD4K";
+const unlockAt=location.search.includes('preview')?0:new Date('2026-12-23T00:00:00+01:00').getTime();
+let revealed=false;
+function tick(){
+  const diff=unlockAt-Date.now();
+  if(diff<=0){
+    if(!revealed){revealed=true;
+      $('reveal').innerHTML=new TextDecoder().decode(Uint8Array.from(atob(REVEAL_B64),c=>c.charCodeAt(0)));
+      hide('access');show('reveal');
+      if(stage>=4)go('reveal');
+    }
+    return;
+  }
+  const d=Math.floor(diff/864e5),h=Math.floor(diff%864e5/36e5),m=Math.floor(diff%36e5/6e4),s=Math.floor(diff%6e4/1e3);
+  $('countdown').textContent=d+'j '+String(h).padStart(2,'0')+'h '+String(m).padStart(2,'0')+'m '+String(s).padStart(2,'0')+'s';
+}
+render();tick();setInterval(tick,1000);
+</script>
+</body>
+</html>
